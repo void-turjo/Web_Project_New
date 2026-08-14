@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartLearn AI Assistant - ChatGPT Powered</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <!-- Marked.js for rendering markdown formatted text -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    .chat-card {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: linear-gradient(135deg, #10a37f, #0d8c6d);
+    }
+    .chat-container {
+      height: 520px;
+      overflow-y: auto;
+      background: #f8f9fa;
+      padding: 24px;
+    }
+    .message-row {
+      display: flex;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+    .message-row.user {
+      justify-content: flex-end;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .avatar-ai {
+      background: #10a37f;
+      color: white;
+    }
+    .avatar-user {
+      background: #0d6efd;
+      color: white;
+    }
+    .message-content {
+      max-width: 80%;
+      padding: 16px 20px;
+      border-radius: 18px;
+      font-size: 0.96rem;
+      line-height: 1.6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .message-content.user {
+      background: #0d6efd;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .message-content.ai {
+      background: white;
+      color: #212529;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+    .message-content.ai p:last-child {
+      margin-bottom: 0;
+    }
+    .message-content.ai code {
+      background: #f1f3f5;
+      color: #d63384;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .message-content.ai pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .message-content.ai pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    .typing-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background-color: #10a37f;
+      margin-left: 4px;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .typing-dots span {
+      width: 8px;
+      height: 8px;
+      background: #10a37f;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 2px;
+      animation: dots 1.4s infinite ease-in-out;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dots {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="/">
+        <i class="fas fa-graduation-cap me-2"></i>SmartLearn
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" id="navLinks">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="/quiz.html">Quiz</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/ai-assistant.html">AI Assistant</a></li>
+          <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section text-white text-center py-4">
+    <div class="container">
+      <h2 class="fw-bold mb-2">🤖 SmartLearn AI Tutor (ChatGPT Engine)</h2>
+      <p class="lead mb-0">Ask any complex study question in Mathematics, Programming, Science, or Logic!</p>
+    </div>
+  </section>
+
+  <div class="container py-5">
+    <div class="row g-4">
+
+      <!-- CHAT SECTION -->
+      <div class="col-lg-8">
+        <div class="card chat-card border-0 shadow">
+          <div class="card-header chat-header text-white p-3">
+            <div class="d-flex align-items-center">
+              <div class="avatar avatar-ai me-3 shadow-sm" style="background:#00a67e;">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div>
+                <h6 class="mb-0 fw-bold fs-5">ChatGPT AI Tutor</h6>
+                <small class="opacity-75"><i class="fas fa-bolt me-1 text-warning"></i>SmartLearn GPT-4o Engine — Active</small>
+              </div>
+              <span class="badge bg-light text-dark ms-auto fw-bold px-3 py-2 rounded-pill">
+                <i class="fas fa-circle text-success me-1 small"></i>Online
+              </span>
+            </div>
+          </div>
+
+          <!-- Chat Messages -->
+          <div class="card-body p-0">
+            <div class="chat-container" id="chatContainer">
+              
+              <!-- Initial Welcome Message -->
+              <div class="message-row ai">
+                <div class="avatar avatar-ai shadow-sm"><i class="fas fa-robot"></i></div>
+                <div class="message-content ai">
+                  <h6 class="fw-bold mb-2 text-success"><i class="fas fa-sparkles me-2"></i>Hello! I'm your AI Study Tutor 👋</h6>
+                  <p class="mb-2">I can help you analyze equations, explain programming code, break down scientific laws, and summarize study topics!</p>
+                  <p class="mb-0 small text-muted"><em>Try asking: "What is a circle?", "Explain Newton's 2nd Law", or "Show a Python for loop example".</em></p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Input Area -->
+          <div class="card-footer bg-white p-3 border-top-0">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control form-control-lg rounded-start-pill ps-4"
+                id="userInput"
+                placeholder="Ask ChatGPT any study question..."
+                onkeypress="handleKeyPress(event)"
+              />
+              <button class="btn btn-success rounded-end-pill px-4 fw-bold" onclick="sendMessage()" id="sendBtn" style="background:#10a37f; border:none;">
+                <i class="fas fa-paper-plane me-2"></i>Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR SUGGESTIONS -->
+      <div class="col-lg-4">
+
+        <!-- Suggested Prompt Cards -->
+        <div class="card border-0 shadow mb-4 rounded-4">
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-3">
+              <i class="fas fa-lightbulb text-warning me-2"></i>Try Suggested Prompts
+            </h6>
+            <div class="d-flex flex-column gap-2">
+              <button class="btn btn-outline-warning text-start text-dark rounded-3 p-2 small" onclick="askSuggested('What is a diode?')">
+                ⚡ <strong>Electronics:</strong> What is a diode?
+              </button>
+              <button class="btn btn-outline-primary text-start rounded-3 p-2 small" onclick="askSuggested('What is a circle and its formulas?')">
+                📐 <strong>Geometry:</strong> What is a circle & formulas?
+              </button>
+              <button class="btn btn-outline-success text-start rounded-3 p-2 small" onclick="askSuggested('Show me Python for loop and while loop examples')">
+                💻 <strong>Coding:</strong> Python loop examples
+              </button>
+              <button class="btn btn-outline-danger text-start rounded-3 p-2 small" onclick="askSuggested('What is Photosynthesis in simple terms?')">
+                🔬 <strong>Biology:</strong> What is Photosynthesis?
+              </button>
+              <button class="btn btn-outline-warning text-start text-dark rounded-3 p-2 small" onclick="askSuggested('How do I study effectively using Pomodoro?')">
+                📚 <strong>Study Strategy:</strong> Pomodoro technique
+              </button>
+              <button class="btn btn-outline-info text-start text-dark rounded-3 p-2 small" onclick="askSuggested('Explain Newton\'s three laws of motion')">
+                ⚡ <strong>Physics:</strong> Newton's 3 laws of motion
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capability Card -->
+        <div class="card border-0 shadow rounded-4">
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-3 text-primary">
+              <i class="fas fa-shield-alt me-2"></i>AI Capabilities
+            </h6>
+            <ul class="list-unstyled small text-muted mb-0">
+              <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Step-by-step problem breakdown</li>
+              <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Formatted code syntax highlighting</li>
+              <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Mathematical equation explanations</li>
+              <li class="mb-0"><i class="fas fa-check-circle text-success me-2"></i>Real-time typewriter response animation</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer text-white py-4 mt-5">
+    <div class="container text-center">
+      <p class="mb-0">© 2026 SmartLearn — Learn Beyond Limits 🎓</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') sendMessage();
+    }
+
+    function askSuggested(promptText) {
+      document.getElementById('userInput').value = promptText;
+      sendMessage();
+    }
+
+    function appendUserMessage(text) {
+      const container = document.getElementById('chatContainer');
+      const row = document.createElement('div');
+      row.className = 'message-row user';
+      row.innerHTML = `
+        <div class="message-content user fw-medium">${escapeHtml(text)}</div>
+        <div class="avatar avatar-user shadow-sm"><i class="fas fa-user"></i></div>
+      `;
+      container.appendChild(row);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const container = document.getElementById('chatContainer');
+      const row = document.createElement('div');
+      row.className = 'message-row ai';
+      row.id = 'typingRow';
+      row.innerHTML = `
+        <div class="avatar avatar-ai shadow-sm"><i class="fas fa-robot"></i></div>
+        <div class="message-content ai py-3 px-4">
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+      `;
+      container.appendChild(row);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const row = document.getElementById('typingRow');
+      if (row) row.remove();
+    }
+
+    // Typewriter animation character by character like ChatGPT
+    function typeWriterMessage(markdownText) {
+      const container = document.getElementById('chatContainer');
+      
+      const row = document.createElement('div');
+      row.className = 'message-row ai';
+      
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar avatar-ai shadow-sm';
+      avatar.innerHTML = '<i class="fas fa-robot"></i>';
+      
+      const content = document.createElement('div');
+      content.className = 'message-content ai';
+
+      row.appendChild(avatar);
+      row.appendChild(content);
+      container.appendChild(row);
+
+      const htmlContent = marked.parse(markdownText);
+      let charIndex = 0;
+      const fullText = markdownText;
+
+      // Stream words or character chunks for smooth ChatGPT effect
+      const words = fullText.split(' ');
+      let wordIdx = 0;
+
+      const interval = setInterval(() => {
+        if (wordIdx < words.length) {
+          wordIdx += 2; // Type 2 words per tick
+          const currentSubText = words.slice(0, wordIdx).join(' ');
+          content.innerHTML = marked.parse(currentSubText) + '<span class="typing-cursor"></span>';
+          container.scrollTop = container.scrollHeight;
+        } else {
+          clearInterval(interval);
+          content.innerHTML = marked.parse(fullText); // Final clean HTML
+          container.scrollTop = container.scrollHeight;
+        }
+      }, 40);
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const message = input.value.trim();
+
+      if (!message) return;
+
+      appendUserMessage(message);
+      input.value = '';
+      sendBtn.disabled = true;
+      showTypingIndicator();
+
+      try {
+        const response = await fetch('/api/ai/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+        removeTypingIndicator();
+
+        if (response.ok && data.reply) {
+          typeWriterMessage(data.reply);
+        } else {
+          typeWriterMessage("### ⚠️ Connection Error\nSorry, I couldn't process your request right now. Please try asking again!");
+        }
+      } catch (error) {
+        removeTypingIndicator();
+        typeWriterMessage("### ⚠️ Server Error\nSorry, something went wrong. Please check your connection and try again!");
+      }
+
+      sendBtn.disabled = false;
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

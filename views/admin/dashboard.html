@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - SmartLearn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <style>
+    .sidebar {
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      width: 260px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      padding-top: 24px;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.06);
+    }
+    .sidebar .nav-link {
+      color: #94a3b8 !important;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin: 4px 14px;
+      font-weight: 500;
+      transition: all 0.25s ease;
+    }
+    .sidebar .nav-link:hover {
+      background: rgba(255,255,255,0.08);
+      color: #f8fafc !important;
+    }
+    .sidebar .nav-link.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff !important;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    }
+    .main-content {
+      margin-left: 260px;
+      padding: 28px;
+    }
+    .stat-card {
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      transition: all 0.25s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .admin-header {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: white;
+      padding: 16px 28px;
+      margin-left: 260px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    }
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; position: relative; min-height: auto; }
+      .main-content { margin-left: 0; padding: 16px; }
+      .admin-header { margin-left: 0; }
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="text-center text-white mb-4 px-3">
+      <i class="fas fa-graduation-cap fa-2x mb-2 text-info"></i>
+      <h5 class="fw-bold mb-0">SmartLearn</h5>
+      <small class="text-info opacity-75 fw-semibold">Admin Panel</small>
+    </div>
+    <hr class="border-secondary opacity-25 mx-3">
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="#" onclick="showSection('dashboard', this)">
+        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('users', this)">
+        <i class="fas fa-users me-2"></i>Manage Users
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('courses', this)">
+        <i class="fas fa-book me-2"></i>Manage Courses
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('quizzes', this)">
+        <i class="fas fa-question-circle me-2"></i>Manage Quizzes
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('forum', this)">
+        <i class="fas fa-comments me-2"></i>Manage Forum
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('certificates', this)">
+        <i class="fas fa-certificate me-2"></i>Certificates
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('reports', this)">
+        <i class="fas fa-chart-bar me-2"></i>Reports
+      </a>
+      <hr class="border-secondary opacity-25 mx-3">
+      <a class="nav-link text-danger" href="#" onclick="logoutUser()">
+        <i class="fas fa-sign-out-alt me-2"></i>Logout
+      </a>
+    </nav>
+  </div>
+
+  <!-- ADMIN HEADER -->
+  <div class="admin-header d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-bold">
+      <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+    </h5>
+    <div class="d-flex align-items-center">
+      <span class="me-3 fw-semibold" id="adminName"></span>
+      <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">Admin</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- DASHBOARD SECTION -->
+    <div id="section-dashboard">
+      <h4 class="fw-bold mb-4 mt-2 text-dark">Overview</h4>
+
+      <!-- Stats -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-3 col-6">
+          <div class="card stat-card p-4 text-center">
+            <i class="fas fa-user-graduate fa-2x text-primary mb-2"></i>
+            <h3 class="fw-bold text-primary mb-1" id="adminStatStudents">0</h3>
+            <p class="text-muted mb-0 small fw-semibold">Total Students</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card stat-card p-4 text-center">
+            <i class="fas fa-chalkboard-teacher fa-2x text-success mb-2"></i>
+            <h3 class="fw-bold text-success mb-1" id="adminStatInstructors">0</h3>
+            <p class="text-muted mb-0 small fw-semibold">Instructors</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card stat-card p-4 text-center">
+            <i class="fas fa-book fa-2x text-warning mb-2"></i>
+            <h3 class="fw-bold text-warning mb-1" id="adminStatCourses">0</h3>
+            <p class="text-muted mb-0 small fw-semibold">Total Courses</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card stat-card p-4 text-center">
+            <i class="fas fa-certificate fa-2x text-danger mb-2"></i>
+            <h3 class="fw-bold text-danger mb-1" id="adminStatCertificates">0</h3>
+            <p class="text-muted mb-0 small fw-semibold">Certificates Issued</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Users Table -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h6 class="fw-bold mb-3">
+            <i class="fas fa-users me-2 text-primary"></i>Recent Registrations
+          </h6>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentUsers">
+                <tr>
+                  <td>Test Student</td>
+                  <td>test@gmail.com</td>
+                  <td><span class="badge bg-primary">Student</span></td>
+                  <td>Aug 2026</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Ahmed Khan</td>
+                  <td>ahmed@gmail.com</td>
+                  <td><span class="badge bg-primary">Student</span></td>
+                  <td>Aug 2026</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Sara Ahmed</td>
+                  <td>sara@gmail.com</td>
+                  <td><span class="badge bg-success">Instructor</span></td>
+                  <td>Aug 2026</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h6 class="fw-bold mb-3">
+            <i class="fas fa-bell me-2 text-warning"></i>Recent Activity
+          </h6>
+          <ul class="list-unstyled">
+            <li class="mb-3 d-flex align-items-center">
+              <span class="badge bg-primary me-3">New</span>
+              <span class="text-muted small">Test Student registered as a new student</span>
+              <small class="text-muted ms-auto">2 hrs ago</small>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <span class="badge bg-success me-3">Quiz</span>
+              <span class="text-muted small">Ahmed Khan scored 90% in Math Quiz</span>
+              <small class="text-muted ms-auto">4 hrs ago</small>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <span class="badge bg-warning me-3">Post</span>
+              <span class="text-muted small">New discussion post in Programming forum</span>
+              <small class="text-muted ms-auto">6 hrs ago</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <span class="badge bg-danger me-3">Cert</span>
+              <span class="text-muted small">Sara Ahmed earned Python certificate</span>
+              <small class="text-muted ms-auto">1 day ago</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS SECTION -->
+    <div id="section-users" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+        <h4 class="fw-bold mb-0">Manage Users</h4>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+          <i class="fas fa-user-plus me-2"></i>Add User
+        </button>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody">
+                <tr>
+                  <td>1</td>
+                  <td class="fw-bold">Mamun Student</td>
+                  <td>mamun@gmail.com</td>
+                  <td><span class="badge bg-primary">STUDENT</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="fw-bold">Neazi Student</td>
+                  <td>neazi@gmail.com</td>
+                  <td><span class="badge bg-primary">STUDENT</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="fw-bold">Turjo Student</td>
+                  <td>turjo720@gmail.com</td>
+                  <td><span class="badge bg-primary">STUDENT</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td class="fw-bold">Test Student</td>
+                  <td>test@gmail.com</td>
+                  <td><span class="badge bg-primary">STUDENT</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td class="fw-bold">Ahmed Khan</td>
+                  <td>ahmed@gmail.com</td>
+                  <td><span class="badge bg-primary">STUDENT</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td class="fw-bold">Sara Ahmed</td>
+                  <td>sara@gmail.com</td>
+                  <td><span class="badge bg-success">INSTRUCTOR</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td class="fw-bold">SmartLearn Admin</td>
+                  <td>admin@smartlearn.com</td>
+                  <td><span class="badge bg-danger">ADMIN</span></td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3">
+                      <i class="fas fa-trash me-1"></i>Remove
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSES SECTION -->
+    <div id="section-courses" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+        <h4 class="fw-bold mb-0">Manage Courses & Video Lessons</h4>
+        <div>
+          <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addVideoModal">
+            <i class="fas fa-video me-2"></i>Add Video & PDF Lesson
+          </button>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+            <i class="fas fa-plus me-2"></i>Add Course
+          </button>
+        </div>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Course Name</th>
+                  <th>Category</th>
+                  <th>Lessons</th>
+                  <th>Students</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminCoursesTableBody">
+                <tr>
+                  <td>1</td>
+                  <td>Algebra Fundamentals</td>
+                  <td><span class="badge bg-primary">Mathematics</span></td>
+                  <td>12</td>
+                  <td>234</td>
+                  <td>
+                    <button class="btn btn-sm btn-warning me-1"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Python for Beginners</td>
+                  <td><span class="badge bg-success">Programming</span></td>
+                  <td>25</td>
+                  <td>567</td>
+                  <td>
+                    <button class="btn btn-sm btn-warning me-1"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Physics Fundamentals</td>
+                  <td><span class="badge bg-danger">Science</span></td>
+                  <td>18</td>
+                  <td>345</td>
+                  <td>
+                    <button class="btn btn-sm btn-warning me-1"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZZES SECTION -->
+    <div id="section-quizzes" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+        <h4 class="fw-bold mb-0">Manage Quizzes & Add Questions</h4>
+        <div>
+          <button class="btn btn-warning me-2 fw-bold text-dark shadow-sm" onclick="showAdminModal('addQuestionModal')">
+            <i class="fas fa-question-circle me-2"></i>Add Question to Quiz
+          </button>
+          <button class="btn btn-primary fw-bold shadow-sm" onclick="showAdminModal('addQuizModal')">
+            <i class="fas fa-plus me-2"></i>Add Quiz
+          </button>
+        </div>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Quiz Title</th>
+                  <th>Course</th>
+                  <th>Questions</th>
+                  <th>Attempts</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminQuizzesTableBody">
+                <tr>
+                  <td>1</td>
+                  <td class="fw-bold">Mathematics Quiz</td>
+                  <td><span class="badge bg-primary">Mathematics</span></td>
+                  <td><span class="badge bg-warning text-dark fw-bold">3 Questions</span></td>
+                  <td>30 Mins</td>
+                  <td>
+                    <button class="btn btn-sm btn-info text-white me-1 rounded-pill fw-bold" onclick="viewQuizQuestions(1, 'Mathematics Quiz')">
+                      <i class="fas fa-list-check me-1"></i>View/Modify Questions
+                    </button>
+                    <button class="btn btn-sm btn-warning text-dark me-1 rounded-pill fw-bold" onclick="openAddQuestionForQuiz(1, 'Mathematics Quiz')">
+                      <i class="fas fa-plus me-1"></i>Add Question
+                    </button>
+                    <button class="btn btn-sm btn-danger rounded-pill" onclick="deleteAdminQuiz(1, 'Mathematics Quiz')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="fw-bold">Programming Quiz</td>
+                  <td><span class="badge bg-primary">Programming</span></td>
+                  <td><span class="badge bg-warning text-dark fw-bold">3 Questions</span></td>
+                  <td>30 Mins</td>
+                  <td>
+                    <button class="btn btn-sm btn-info text-white me-1 rounded-pill fw-bold" onclick="viewQuizQuestions(2, 'Programming Quiz')">
+                      <i class="fas fa-list-check me-1"></i>View/Modify Questions
+                    </button>
+                    <button class="btn btn-sm btn-warning text-dark me-1 rounded-pill fw-bold" onclick="openAddQuestionForQuiz(2, 'Programming Quiz')">
+                      <i class="fas fa-plus me-1"></i>Add Question
+                    </button>
+                    <button class="btn btn-sm btn-danger rounded-pill" onclick="deleteAdminQuiz(2, 'Programming Quiz')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td class="fw-bold">Science Quiz</td>
+                  <td><span class="badge bg-primary">Science</span></td>
+                  <td><span class="badge bg-warning text-dark fw-bold">1 Questions</span></td>
+                  <td>30 Mins</td>
+                  <td>
+                    <button class="btn btn-sm btn-info text-white me-1 rounded-pill fw-bold" onclick="viewQuizQuestions(3, 'Science Quiz')">
+                      <i class="fas fa-list-check me-1"></i>View/Modify Questions
+                    </button>
+                    <button class="btn btn-sm btn-warning text-dark me-1 rounded-pill fw-bold" onclick="openAddQuestionForQuiz(3, 'Science Quiz')">
+                      <i class="fas fa-plus me-1"></i>Add Question
+                    </button>
+                    <button class="btn btn-sm btn-danger rounded-pill" onclick="deleteAdminQuiz(3, 'Science Quiz')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORUM SECTION -->
+    <div id="section-forum" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+        <h4 class="fw-bold mb-0">Manage Forum & Moderation</h4>
+        <button class="btn btn-primary fw-bold rounded-pill px-3" onclick="showAdminModal('addAdminForumPostModal')">
+          <i class="fas fa-bullhorn me-2"></i>Create Official Post / Announcement
+        </button>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Post Title</th>
+                  <th>Author</th>
+                  <th>Category</th>
+                  <th>Stats</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminForumTableBody">
+                <tr>
+                  <td>1</td>
+                  <td class="fw-bold">How to solve quadratic equations?</td>
+                  <td>Ahmed Khan <span class="badge bg-secondary">Student</span></td>
+                  <td><span class="badge bg-primary">Mathematics</span></td>
+                  <td><small class="text-muted">❤️ 14 Likes | 💬 2 Replies</small></td>
+                  <td>Aug 2026</td>
+                  <td>
+                    <button class="btn btn-sm btn-info text-white rounded-pill px-2 me-1 fw-bold" onclick="window.open('/forum.html', '_blank')">
+                      <i class="fas fa-eye me-1"></i>View
+                    </button>
+                    <button class="btn btn-sm btn-danger rounded-pill px-2" onclick="deleteAdminForumPost(1)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="fw-bold">Python vs JavaScript?</td>
+                  <td>Sara Ahmed <span class="badge bg-secondary">Student</span></td>
+                  <td><span class="badge bg-success">Programming</span></td>
+                  <td><small class="text-muted">❤️ 28 Likes | 💬 2 Replies</small></td>
+                  <td>Aug 2026</td>
+                  <td>
+                    <button class="btn btn-sm btn-info text-white rounded-pill px-2 me-1 fw-bold" onclick="window.open('/forum.html', '_blank')">
+                      <i class="fas fa-eye me-1"></i>View
+                    </button>
+                    <button class="btn btn-sm btn-danger rounded-pill px-2" onclick="deleteAdminForumPost(2)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATES SECTION -->
+    <div id="section-certificates" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+        <h4 class="fw-bold mb-0">Manage & Issue Certificates</h4>
+        <button class="btn btn-success fw-bold rounded-pill px-3" onclick="showAdminModal('issueCertificateModal')">
+          <i class="fas fa-award me-2"></i>Issue Student Certificate
+        </button>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Course Completed</th>
+                  <th>Verification Code</th>
+                  <th>Issued Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminCertificatesTableBody">
+                <tr>
+                  <td>1</td>
+                  <td class="fw-bold">Test Student</td>
+                  <td><span class="badge bg-primary">HTML & CSS Basics</span></td>
+                  <td><code>SL-2026-98214</code></td>
+                  <td>Aug 2026</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary rounded-pill px-3 me-1 fw-bold" onclick="previewAdminCertificate('Test Student', 'HTML & CSS Basics', 'SL-2026-98214')">
+                      <i class="fas fa-print me-1"></i>Print/View
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-2" onclick="deleteAdminCertificate(1)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="fw-bold">Ahmed Khan</td>
+                  <td><span class="badge bg-success">Python for Beginners</span></td>
+                  <td><code>SL-2026-44120</code></td>
+                  <td>Aug 2026</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary rounded-pill px-3 me-1 fw-bold" onclick="previewAdminCertificate('Ahmed Khan', 'Python for Beginners', 'SL-2026-44120')">
+                      <i class="fas fa-print me-1"></i>Print/View
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-2" onclick="deleteAdminCertificate(2)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORTS SECTION -->
+    <div id="section-reports" class="d-none">
+      <h4 class="fw-bold mb-4 mt-3">Reports & Analytics</h4>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm p-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-chart-pie me-2 text-primary"></i>Students by Subject</h6>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <small>Mathematics</small><small>40%</small>
+              </div>
+              <div class="progress mb-3" style="height:8px">
+                <div class="progress-bar bg-primary" style="width:40%"></div>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <small>Programming</small><small>45%</small>
+              </div>
+              <div class="progress mb-3" style="height:8px">
+                <div class="progress-bar bg-success" style="width:45%"></div>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <small>Science</small><small>15%</small>
+              </div>
+              <div class="progress" style="height:8px">
+                <div class="progress-bar bg-danger" style="width:15%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm p-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-chart-bar me-2 text-success"></i>Quiz Performance</h6>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <small>Math Quiz Avg</small><small>72%</small>
+              </div>
+              <div class="progress mb-3" style="height:8px">
+                <div class="progress-bar bg-primary" style="width:72%"></div>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <small>Programming Quiz Avg</small><small>85%</small>
+              </div>
+              <div class="progress mb-3" style="height:8px">
+                <div class="progress-bar bg-success" style="width:85%"></div>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <small>Science Quiz Avg</small><small>68%</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL ADMIN MODALS (Placed outside hidden section containers) -->
+  <!-- ADD USER MODAL -->
+  <div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Add New User</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="addUserForm" onsubmit="submitAddUserAdmin(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Full Name</label>
+              <input type="text" class="form-control" id="addUserName" placeholder="e.g. John Doe" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Email Address</label>
+              <input type="email" class="form-control" id="addUserEmail" placeholder="john@smartlearn.com" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Phone Number</label>
+              <input type="text" class="form-control" id="addUserPhone" placeholder="+880 1234 567890">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Select Role</label>
+              <select class="form-select" id="addUserRole" required>
+                <option value="student">Student</option>
+                <option value="instructor">Instructor</option>
+                <option value="admin">Administrator</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Password</label>
+              <input type="password" class="form-control" id="addUserPassword" placeholder="Create password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill">
+              <i class="fas fa-check-circle me-2"></i>Add User
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD COURSE MODAL -->
+  <div class="modal fade" id="addCourseModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-book me-2"></i>Add New Course</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="addCourseForm" onsubmit="submitCreateCourseAdmin(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Course Title</label>
+              <input type="text" class="form-control" id="adminCourseName" placeholder="e.g. Advanced JavaScript Patterns" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Subject Category</label>
+              <select class="form-select" id="adminCourseSubject" required>
+                <option value="Programming">Programming</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Description</label>
+              <textarea class="form-control" id="adminCourseDesc" rows="3" placeholder="Brief summary of course content..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Instructor Name</label>
+              <input type="text" class="form-control" id="adminCourseInstructor" placeholder="Dr. Alan Smith">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Duration</label>
+              <input type="text" class="form-control" id="adminCourseDuration" placeholder="e.g. 10 Hours">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill">
+              <i class="fas fa-plus-circle me-2"></i>Create Course
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD QUIZ MODAL -->
+  <div class="modal fade" id="addQuizModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-file-alt me-2"></i>Add New Quiz</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="addQuizForm" onsubmit="submitCreateQuizAdmin(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Quiz Title</label>
+              <input type="text" class="form-control" id="newQuizTitle" placeholder="e.g. HTML5 Assessment Quiz" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Subject Category</label>
+              <select class="form-select" id="newQuizSubject" required>
+                <option value="Programming">Programming</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Time Limit (Minutes)</label>
+              <input type="number" class="form-control" id="newQuizTimeLimit" value="15" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill">
+              <i class="fas fa-check-circle me-2"></i>Create Quiz
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD VIDEO / PDF LESSON MODAL -->
+  <div class="modal fade" id="addVideoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-video me-2"></i>Add Video & PDF Lesson</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="addVideoForm" onsubmit="submitAdminVideo(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Select Course</label>
+              <select class="form-select" id="videoCourseId" required>
+                <option value="3">HTML & CSS Basics (Course #3)</option>
+                <option value="4">Python for Beginners (Course #4)</option>
+                <option value="1">Algebra Fundamentals (Course #1)</option>
+                <option value="2">Calculus Basics (Course #2)</option>
+                <option value="5">Physics Fundamentals (Course #5)</option>
+                <option value="6">Chemistry Basics (Course #6)</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Lesson Title</label>
+              <input type="text" class="form-control" id="videoTitle" placeholder="e.g. Lesson 1: Introduction to HTML5 Tags" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">YouTube Video URL or Embed Link</label>
+              <input type="url" class="form-control" id="videoUrl" placeholder="https://www.youtube.com/watch?v=pQN-pnXPaVg" required>
+              <small class="text-muted">Paste any YouTube video link here.</small>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Associated PDF Notes Link / File Path</label>
+              <input type="text" class="form-control" id="videoPdfUrl" placeholder="/uploads/pdfs/html_css_cheatsheet.pdf">
+            </div>
+            <button type="submit" class="btn btn-success w-100 fw-bold rounded-pill">
+              <i class="fas fa-upload me-2"></i>Publish Video Lesson
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD QUIZ QUESTION MODAL -->
+  <div class="modal fade" id="addQuestionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title fw-bold"><i class="fas fa-question-circle me-2"></i>Add Quiz Question</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="addQuestionForm" onsubmit="submitAdminQuestion(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Select Quiz</label>
+              <select class="form-select" id="qQuizId" required>
+                <option value="2">Programming Quiz (HTML & CSS / Python)</option>
+                <option value="1">Mathematics Quiz (Algebra / Calculus)</option>
+                <option value="3">Science Quiz (Physics / Chemistry)</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Question Text</label>
+              <input type="text" class="form-control" id="qText" placeholder="e.g. What is the default display property of a <div> tag?" required>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Option A</label>
+                <input type="text" class="form-control" id="qOptA" placeholder="inline" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Option B</label>
+                <input type="text" class="form-control" id="qOptB" placeholder="block" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Option C</label>
+                <input type="text" class="form-control" id="qOptC" placeholder="flex" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Option D</label>
+                <input type="text" class="form-control" id="qOptD" placeholder="none" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Correct Option</label>
+              <select class="form-select" id="qCorrect" required>
+                <option value="A">Option A</option>
+                <option value="B" selected>Option B</option>
+                <option value="C">Option C</option>
+                <option value="D">Option D</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Explanation (Optional)</label>
+              <input type="text" class="form-control" id="qExplanation" placeholder="<div> is a block-level element by default.">
+            </div>
+            <button type="submit" class="btn btn-warning w-100 fw-bold rounded-pill text-dark">
+              <i class="fas fa-plus-circle me-2"></i>Add Question to Quiz
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW & MODIFY QUESTIONS MODAL -->
+  <div class="modal fade" id="viewQuestionsModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="viewQuestionsModalTitle">
+            <i class="fas fa-list-check me-2"></i>Quiz Question Bank & Modification
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0 text-muted" id="quizQuestionCountText">Existing Questions</h6>
+            <button class="btn btn-warning btn-sm rounded-pill fw-bold text-dark" onclick="openAddQuestionFromView()">
+              <i class="fas fa-plus me-1"></i>Add New Question
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle border">
+              <thead class="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Question Text</th>
+                  <th>Options</th>
+                  <th>Correct</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminQuestionsListBody">
+                <tr><td colspan="5" class="text-center py-3">Loading quiz questions...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT / MODIFY QUESTION MODAL -->
+  <div class="modal fade" id="editQuestionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold">
+            <i class="fas fa-edit me-2"></i>Modify / Edit Quiz Question
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="editQuestionForm" onsubmit="submitEditAdminQuestion(event)">
+            <input type="hidden" id="editQuestionId"/>
+            <input type="hidden" id="editQuizId"/>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Question Text</label>
+              <textarea class="form-control" id="editQText" rows="3" required></textarea>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option A</label>
+                <input type="text" class="form-control" id="editQOptA" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option B</label>
+                <input type="text" class="form-control" id="editQOptB" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option C</label>
+                <input type="text" class="form-control" id="editQOptC" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option D</label>
+                <input type="text" class="form-control" id="editQOptD" required/>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Correct Option</label>
+              <select class="form-select" id="editQCorrect" required>
+                <option value="A">Option A</option>
+                <option value="B">Option B</option>
+                <option value="C">Option C</option>
+                <option value="D">Option D</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Explanation</label>
+              <textarea class="form-control" id="editQExplanation" rows="2" placeholder="Explain the correct answer..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-save me-2"></i>Save & Update Question
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD ADMIN FORUM ANNOUNCEMENT MODAL -->
+  <div class="modal fade" id="addAdminForumPostModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-bullhorn me-2"></i>Create Official Forum Announcement</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="addAdminForumPostForm" onsubmit="submitAdminForumPost(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Announcement Title</label>
+              <input type="text" class="form-control" id="adminForumTitle" placeholder="e.g. 🎉 Mid-Term Exam Schedule & Preparation Guide" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Category</label>
+              <select class="form-select" id="adminForumCategory" required>
+                <option value="General Discussion">General Discussion</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Programming">Programming</option>
+                <option value="Database">Database</option>
+                <option value="AI/ML">AI/ML</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Post Content</label>
+              <textarea class="form-control" id="adminForumContent" rows="5" placeholder="Write official announcement details..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-paper-plane me-2"></i>Publish Official Announcement
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ISSUE STUDENT CERTIFICATE MODAL -->
+  <div class="modal fade" id="issueCertificateModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-award me-2"></i>Issue Course Completion Certificate</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="issueCertificateForm" onsubmit="submitIssueCertificate(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Student Name</label>
+              <input type="text" class="form-control" id="certStudentName" placeholder="e.g. Test Student" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Select Completed Course</label>
+              <select class="form-select" id="certCourseName" required>
+                <option value="HTML & CSS Basics">HTML & CSS Basics</option>
+                <option value="Python for Beginners">Python for Beginners</option>
+                <option value="Algebra Fundamentals">Algebra Fundamentals</option>
+                <option value="Calculus Basics">Calculus Basics</option>
+                <option value="Physics Fundamentals">Physics Fundamentals</option>
+                <option value="Chemistry Basics">Chemistry Basics</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-check-circle me-2"></i>Generate & Issue Certificate
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW & PRINT CERTIFICATE PREVIEW MODAL -->
+  <div class="modal fade" id="viewAdminCertificateModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-certificate me-2"></i>Official Verified Certificate Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4 text-center" id="certificatePrintableContainer">
+          <div class="border border-4 border-warning p-5 rounded-4 shadow-sm bg-white position-relative">
+            <i class="fas fa-graduation-cap fa-4x text-primary mb-3"></i>
+            <h2 class="fw-bold text-dark font-monospace mb-1">CERTIFICATE OF COMPLETION</h2>
+            <p class="text-muted mb-4">SmartLearn Academic E-Learning Platform</p>
+            <p class="fs-5 text-secondary mb-1">This is to officially certify that</p>
+            <h1 class="display-6 fw-bold text-primary mb-3" id="certModalStudentName">Student Name</h1>
+            <p class="fs-5 text-secondary mb-1">has successfully completed the official academic course</p>
+            <h3 class="fw-bold text-dark mb-4" id="certModalCourseName">Course Title</h3>
+            <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+              <div class="text-start">
+                <small class="text-muted d-block">Verification Code:</small>
+                <code class="fs-6 fw-bold text-dark" id="certModalCode">SL-2026-98214</code>
+              </div>
+              <div class="text-end">
+                <small class="text-muted d-block">Authorized Signatory:</small>
+                <span class="fw-bold text-primary">SmartLearn Academic Board 🎓</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button class="btn btn-primary rounded-pill px-4 fw-bold me-2" onclick="window.print()">
+              <i class="fas fa-print me-2"></i>Print / Save PDF
+            </button>
+            <button class="btn btn-secondary rounded-pill px-4" onclick="hideAdminModal('viewAdminCertificateModal')">
+              Close Preview
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    // Set admin user name
+    const user = getCurrentUser();
+    if (user && document.getElementById('adminName')) {
+      document.getElementById('adminName').textContent = user.name || 'Admin';
+    }
+
+    // Switch section tabs in sidebar
+    function showSection(section, btn) {
+      const sections = ['dashboard', 'users', 'courses', 'quizzes', 'forum', 'certificates', 'reports'];
+      sections.forEach(s => {
+        const secEl = document.getElementById(`section-${s}`);
+        if (secEl) secEl.classList.add('d-none');
+      });
+
+      const targetSec = document.getElementById(`section-${section}`);
+      if (targetSec) targetSec.classList.remove('d-none');
+
+      document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      if (btn) {
+        btn.classList.add('active');
+      }
+    }
+  </script>
+  <script src="/js/admin.js?v=6"></script>
+</body>
+</html>

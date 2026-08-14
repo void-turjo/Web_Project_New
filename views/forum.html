@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Discussion Forum - SmartLearn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="/">
+        <i class="fas fa-graduation-cap me-2"></i>SmartLearn
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" id="navLinks">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="/notes.html">Notes</a></li>
+          <li class="nav-item"><a class="nav-link" href="/quiz.html">Quiz</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ai-assistant.html">AI Assistant</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/forum.html">Forum</a></li>
+          <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section text-white text-center py-4">
+    <div class="container">
+      <h2 class="fw-bold mb-2">💬 Student & Teacher Discussion Forum</h2>
+      <p class="lead mb-0">Ask questions, share solutions, and get explanations directly from teachers!</p>
+    </div>
+  </section>
+
+  <div class="container py-5">
+    <div class="row g-4">
+
+      <!-- MAIN POSTS SECTION -->
+      <div class="col-lg-8">
+
+        <!-- Top Header & Create Post Button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="fw-bold mb-0 text-dark"><i class="fas fa-comments me-2 text-primary"></i>Academic Discussions</h4>
+          <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#createPostModal">
+            <i class="fas fa-plus-circle me-2"></i>Create New Post
+          </button>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="mb-4 d-flex flex-wrap gap-2" id="categoryFilterBar">
+          <button class="btn btn-primary rounded-pill btn-sm px-3 fw-bold filter-btn" onclick="filterCategory('all', this)">All Topics</button>
+          <button class="btn btn-outline-primary rounded-pill btn-sm px-3 fw-bold filter-btn" onclick="filterCategory('Mathematics', this)">📐 Mathematics</button>
+          <button class="btn btn-outline-success rounded-pill btn-sm px-3 fw-bold filter-btn" onclick="filterCategory('Programming', this)">💻 Programming</button>
+          <button class="btn btn-outline-warning text-dark rounded-pill btn-sm px-3 fw-bold filter-btn" onclick="filterCategory('Database', this)">🗄️ Database</button>
+          <button class="btn btn-outline-info text-dark rounded-pill btn-sm px-3 fw-bold filter-btn" onclick="filterCategory('AI/ML', this)">🤖 AI/ML</button>
+          <button class="btn btn-outline-secondary rounded-pill btn-sm px-3 fw-bold filter-btn" onclick="filterCategory('General Discussion', this)">💬 General</button>
+        </div>
+
+        <!-- Dynamic Discussion Posts Container -->
+        <div id="postsContainer">
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="text-muted mt-2">Loading discussions...</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR SEARCH & COMMUNITY STATS -->
+      <div class="col-lg-4">
+
+        <!-- Search Bar -->
+        <div class="card border-0 shadow-sm mb-4 rounded-4">
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-search me-2 text-primary"></i>Search Discussions</h6>
+            <div class="input-group">
+              <input type="text" class="form-control rounded-start-pill ps-3" id="forumSearchInput" placeholder="Search title or keyword..." onkeyup="handleSearchKey(event)"/>
+              <button class="btn btn-primary rounded-end-pill px-3" onclick="triggerSearch()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Answer Banner -->
+        <div class="card border-0 shadow-sm mb-4 rounded-4 bg-warning bg-opacity-10 border-start border-warning border-4">
+          <div class="card-body p-4">
+            <h6 class="fw-bold text-dark mb-2"><i class="fas fa-chalkboard-teacher text-warning me-2 fs-5"></i>Teacher Answers Highlighted</h6>
+            <p class="small text-muted mb-0">Replies from verified instructors and teachers are marked with a gold <strong>👨‍🏫 Teacher Answer</strong> badge for easy reference!</p>
+          </div>
+        </div>
+
+        <!-- Forum Categories Overview -->
+        <div class="card border-0 shadow-sm mb-4 rounded-4">
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-layer-group me-2 text-success"></i>Categories</h6>
+            <ul class="list-group list-group-flush small">
+              <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                <span>📐 Mathematics</span>
+                <span class="badge bg-primary rounded-pill">Algebra & Calculus</span>
+              </li>
+              <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                <span>💻 Programming</span>
+                <span class="badge bg-success rounded-pill">Python, JS & HTML</span>
+              </li>
+              <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                <span>🗄️ Database</span>
+                <span class="badge bg-warning text-dark rounded-pill">SQL & NoSQL</span>
+              </li>
+              <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                <span>🤖 AI/ML</span>
+                <span class="badge bg-info text-dark rounded-pill">ML & Deep Learning</span>
+              </li>
+              <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                <span>💬 General Discussion</span>
+                <span class="badge bg-secondary rounded-pill">Study Tips & Exams</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Forum Stats -->
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-chart-bar me-2 text-primary"></i>Community Stats</h6>
+            <div class="d-flex justify-content-between mb-2">
+              <small class="text-muted">Total Discussions</small>
+              <strong id="statTotalPosts">156</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <small class="text-muted">Registered Students & Teachers</small>
+              <strong>1,245</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <small class="text-muted">Active Now</small>
+              <strong class="text-success"><i class="fas fa-circle small me-1"></i>Online</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE NEW POST MODAL -->
+  <div class="modal fade" id="createPostModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold">
+            <i class="fas fa-pen-alt me-2"></i>Create New Discussion Post
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="createPostForm" onsubmit="submitNewForumPost(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Select Category</label>
+              <select class="form-select" id="postCategory" required>
+                <option value="Mathematics">📐 Mathematics</option>
+                <option value="Programming">💻 Programming</option>
+                <option value="Database">🗄️ Database</option>
+                <option value="AI/ML">🤖 AI/ML</option>
+                <option value="General Discussion" selected>💬 General Discussion</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Question / Topic Title</label>
+              <input type="text" class="form-control" id="postTitle" placeholder="e.g. How to solve quadratic equations using the general formula?" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Description & Details</label>
+              <textarea class="form-control" id="postContent" rows="5" placeholder="Describe your question, problem, or topic in detail..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-paper-plane me-2"></i>Publish Discussion Post
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREAD REPLIES MODAL -->
+  <div class="modal fade" id="threadModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="threadPostTitle">Discussion Thread</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          
+          <!-- Post Author Header -->
+          <div class="p-3 bg-white border rounded-3 mb-4 shadow-sm">
+            <small class="text-muted d-block mb-1" id="threadPostMeta"></small>
+            <p class="mb-0 text-dark fw-medium" id="threadPostBody" style="line-height: 1.6;"></p>
+          </div>
+
+          <h6 class="fw-bold mb-3"><i class="fas fa-comments text-primary me-2"></i>Replies & Teacher Answers</h6>
+          <div id="threadRepliesContainer" class="mb-4"></div>
+
+          <!-- Add Reply Form -->
+          <div class="card border-0 bg-light p-3 rounded-3">
+            <h6 class="fw-bold mb-2 small"><i class="fas fa-reply text-success me-1"></i>Post a Reply (Student or Teacher)</h6>
+            <div class="input-group">
+              <input type="text" class="form-control" id="replyContent" placeholder="Write your answer or follow-up question..."/>
+              <button class="btn btn-success fw-bold px-4" onclick="submitForumReply()">
+                <i class="fas fa-paper-plane me-1"></i>Reply
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer text-white py-4 mt-5">
+    <div class="container text-center">
+      <p class="mb-0">© 2026 SmartLearn — Learn Beyond Limits 🎓</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/forum.js"></script>
+  <script>
+    function filterCategory(category, btn) {
+      document.querySelectorAll('#categoryFilterBar .btn').forEach(b => {
+        b.classList.remove('btn-primary', 'btn-success', 'btn-warning', 'btn-info', 'btn-secondary');
+        b.classList.add('btn-outline-secondary');
+      });
+      btn.className = 'btn btn-primary rounded-pill btn-sm px-3 fw-bold filter-btn';
+      loadForumPosts(category);
+    }
+
+    function triggerSearch() {
+      const q = document.getElementById('forumSearchInput').value;
+      loadForumPosts('all', q);
+    }
+
+    function handleSearchKey(e) {
+      if (e.key === 'Enter') triggerSearch();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Python Basics Handbook - SmartLearn PDF</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; color: #212529; padding: 40px; }
+    .pdf-card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 40px; max-width: 850px; margin: 0 auto; }
+    .header-bar { border-bottom: 3px solid #198754; padding-bottom: 15px; margin-bottom: 30px; }
+    .formula-box { background: #e8f5e9; border-left: 4px solid #198754; padding: 15px; border-radius: 6px; margin: 15px 0; font-family: 'Courier New', Courier, monospace; font-size: 1rem; }
+    @media print {
+      body { background: white; padding: 0; }
+      .pdf-card { box-shadow: none; max-width: 100%; padding: 20px; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pdf-card">
+    <div class="d-flex justify-content-between align-items-center no-print mb-4">
+      <a href="/notes.html" class="btn btn-outline-secondary btn-sm"><i class="fas fa-arrow-left"></i> Back to SmartLearn Library</a>
+      <button onclick="window.print()" class="btn btn-success fw-bold"><i class="fas fa-print"></i> Save / Print as PDF</button>
+    </div>
+
+    <div class="header-bar d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="fw-bold text-success mb-1">🐍 Python Basics Handbook</h2>
+        <p class="text-muted mb-0">SmartLearn Official Study Guide • Python Programming Series</p>
+      </div>
+      <span class="badge bg-success fs-6 px-3 py-2">Programming</span>
+    </div>
+
+    <h4 class="fw-bold text-dark mt-4">1. Variables & Data Types</h4>
+    <div class="formula-box">
+      x = 10               # int<br>
+      pi = 3.14159         # float<br>
+      name = "SmartLearn"  # str<br>
+      is_active = True     # bool<br>
+      fruits = ["apple", "banana"] # list (mutable)<br>
+      point = (10, 20)     # tuple (immutable)<br>
+      user = {"name": "Alice", "age": 20} # dict
+    </div>
+
+    <h4 class="fw-bold text-dark mt-4">2. Functions & Control Flow</h4>
+    <div class="formula-box">
+      def calculate_square(number):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"""Returns square of number"""<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;return number ** 2<br><br>
+      if x > 5:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;print("Greater than 5")<br>
+      elif x == 5:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;print("Equal to 5")<br>
+      else:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;print("Less than 5")
+    </div>
+
+    <h4 class="fw-bold text-dark mt-4">3. Loops & List Comprehensions</h4>
+    <div class="formula-box">
+      # For Loop<br>
+      for i in range(1, 6):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;print(f"Index: {i}")<br><br>
+      # List Comprehension<br>
+      squares = [x**2 for x in range(10) if x % 2 == 0]
+    </div>
+
+    <hr class="my-5">
+    <div class="text-center text-muted small">
+      <p>© 2026 SmartLearn Library — Verified Academic Study Resource 🎓</p>
+    </div>
+  </div>
+
+</body>
+</html>

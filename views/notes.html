@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Notes Library - SmartLearn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="/">
+        <i class="fas fa-graduation-cap me-2"></i>SmartLearn
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/notes.html">Notes</a></li>
+          <li class="nav-item"><a class="nav-link" href="/quiz.html">Quiz</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ai-assistant.html">AI Assistant</a></li>
+          <li class="nav-item"><a class="nav-link" href="/forum.html">Forum</a></li>
+          <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section text-white text-center py-5">
+    <div class="container">
+      <h2 class="fw-bold mb-2">📄 PDF Notes & Verified Study Library</h2>
+      <p class="lead mb-0">Read, print, and download official formula sheets, summaries, and lecture notes anytime.</p>
+    </div>
+  </section>
+
+  <!-- NOTES CONTENT -->
+  <div class="container py-5">
+    <div class="row g-4" id="notesGrid">
+      
+      <!-- 1. ALGEBRA -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">Algebra Formulas Summary</h5>
+          <span class="badge bg-primary w-50 mx-auto mb-2">Mathematics</span>
+          <p class="text-muted small">Quick reference guide covering linear equations, factoring, slope, and roots.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/algebra_summary.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(1)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (1.8 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. CALCULUS -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">Calculus Derivatives & Integrals Sheet</h5>
+          <span class="badge bg-primary w-50 mx-auto mb-2">Mathematics</span>
+          <p class="text-muted small">Complete derivative rules, integration formulas, product/chain rules, and solved examples.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/calculus_cheat_sheet.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(2)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (2.4 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. HTML & CSS -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">HTML5 & CSS3 Quick Cheatsheet</h5>
+          <span class="badge bg-success w-50 mx-auto mb-2">Programming</span>
+          <p class="text-muted small">Comprehensive tag reference, CSS flexbox/grid responsive layouts, and selectors.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/html_css_cheatsheet.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(3)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (3.1 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. PYTHON -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">Python Basics Handbook</h5>
+          <span class="badge bg-success w-50 mx-auto mb-2">Programming</span>
+          <p class="text-muted small">Core syntax, data types, functions, list comprehensions, and OOP concepts in Python.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/python_basics.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(4)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (4.2 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. PHYSICS -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">Physics Mechanics & Forces Handout</h5>
+          <span class="badge bg-danger w-50 mx-auto mb-2">Science</span>
+          <p class="text-muted small">Detailed diagrams, Newton's laws, kinetic energy, kinematics equations, and momentum notes.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/physics_mechanics.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(5)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (2.9 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. CHEMISTRY -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">Chemistry Basics & Periodic Table Guide</h5>
+          <span class="badge bg-danger w-50 mx-auto mb-2">Science</span>
+          <p class="text-muted small">Atomic structure, mole concept, Avogadro's number, stoichiometry, and bonding types.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/chemistry_basics.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(6)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (3.5 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. THERMODYNAMICS -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4 p-4 text-center">
+          <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+          <h5 class="fw-bold">Thermodynamics Laws & Heat Transfer Guide</h5>
+          <span class="badge bg-danger w-50 mx-auto mb-2">Science</span>
+          <p class="text-muted small">Zeroth to 3rd laws of thermodynamics, internal energy, heat capacity, enthalpy, and entropy equations.</p>
+          <div class="mt-auto d-flex flex-column gap-2">
+            <a href="/uploads/pdfs/thermodynamics_notes.html" target="_blank" class="btn btn-danger w-100 rounded-pill fw-bold" onclick="countDownload(7)">
+              <i class="fas fa-file-download me-2"></i>View & Download PDF (3.8 MB)
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer text-white py-4 mt-auto">
+    <div class="container text-center">
+      <p class="mb-0">© 2026 SmartLearn — Learn Beyond Limits 🎓</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    function countDownload(noteId) {
+      fetch(`/api/notes/download/${noteId}`, { method: 'POST' }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificates - SmartLearn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <style>
+    .certificate-card {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      border-radius: 20px;
+      color: white;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .certificate-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .certificate-card::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .certificate-badge {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="/">
+        <i class="fas fa-graduation-cap me-2"></i>SmartLearn
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section text-white text-center py-4">
+    <div class="container">
+      <h2 class="fw-bold mb-2">🏆 My Certificates</h2>
+      <p class="lead mb-0">Your earned certificates from completed courses!</p>
+    </div>
+  </section>
+
+  <div class="container py-5">
+
+    <!-- NO CERTIFICATES MESSAGE -->
+    <div id="noCertificates" class="text-center py-5">
+      <i class="fas fa-certificate fa-5x text-muted mb-4"></i>
+      <h4 class="text-muted">No Certificates Yet!</h4>
+      <p class="text-muted">Complete a course and pass the quiz to earn your certificate!</p>
+      <a href="/courses.html" class="btn btn-primary">
+        <i class="fas fa-book me-2"></i>Browse Courses
+      </a>
+    </div>
+
+    <!-- SAMPLE CERTIFICATE -->
+    <div id="certificatesContainer" class="d-none">
+      <div class="row g-4">
+
+        <div class="col-md-6">
+          <div class="certificate-card shadow-lg">
+            <div class="text-center position-relative" style="z-index:1">
+              <div class="certificate-badge mb-3">
+                <i class="fas fa-trophy fa-2x text-warning"></i>
+              </div>
+              <p class="mb-1 opacity-75">SmartLearn — Learn Beyond Limits</p>
+              <h6 class="mb-3 opacity-75">This is to certify that</h6>
+              <h3 class="fw-bold mb-3" id="certName1"></h3>
+              <p class="mb-1 opacity-75">has successfully completed</p>
+              <h5 class="fw-bold mb-3">Python for Beginners</h5>
+              <div class="d-flex justify-content-between mb-3">
+                <small class="opacity-75">Date: August 2026</small>
+                <small class="opacity-75">Score: 85%</small>
+              </div>
+              <div class="bg-white bg-opacity-20 rounded p-2 mb-3">
+                <small>Certificate Code: SL-2026-PY-001</small>
+              </div>
+              <button class="btn btn-light fw-bold" onclick="downloadCertificate()">
+                <i class="fas fa-download me-2"></i>Download Certificate
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="certificate-card shadow-lg" style="background: linear-gradient(135deg, #28a745, #1e7e34)">
+            <div class="text-center position-relative" style="z-index:1">
+              <div class="certificate-badge mb-3">
+                <i class="fas fa-medal fa-2x text-warning"></i>
+              </div>
+              <p class="mb-1 opacity-75">SmartLearn — Learn Beyond Limits</p>
+              <h6 class="mb-3 opacity-75">This is to certify that</h6>
+              <h3 class="fw-bold mb-3" id="certName2"></h3>
+              <p class="mb-1 opacity-75">has successfully completed</p>
+              <h5 class="fw-bold mb-3">HTML & CSS Basics</h5>
+              <div class="d-flex justify-content-between mb-3">
+                <small class="opacity-75">Date: August 2026</small>
+                <small class="opacity-75">Score: 90%</small>
+              </div>
+              <div class="bg-white bg-opacity-20 rounded p-2 mb-3">
+                <small>Certificate Code: SL-2026-WD-002</small>
+              </div>
+              <button class="btn btn-light fw-bold" onclick="downloadCertificate()">
+                <i class="fas fa-download me-2"></i>Download Certificate
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HOW TO EARN -->
+    <div class="card border-0 shadow-sm mt-5">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4 text-center">
+          <i class="fas fa-info-circle text-primary me-2"></i>How to Earn Certificates?
+        </h5>
+        <div class="row g-4 text-center">
+          <div class="col-md-3">
+            <div class="p-3">
+              <i class="fas fa-book fa-2x text-primary mb-3"></i>
+              <h6 class="fw-bold">Step 1</h6>
+              <p class="text-muted small">Enroll in a course</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="p-3">
+              <i class="fas fa-video fa-2x text-success mb-3"></i>
+              <h6 class="fw-bold">Step 2</h6>
+              <p class="text-muted small">Watch all video lectures</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="p-3">
+              <i class="fas fa-question-circle fa-2x text-warning mb-3"></i>
+              <h6 class="fw-bold">Step 3</h6>
+              <p class="text-muted small">Pass the quiz with 50%+</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="p-3">
+              <i class="fas fa-certificate fa-2x text-danger mb-3"></i>
+              <h6 class="fw-bold">Step 4</h6>
+              <p class="text-muted small">Download your certificate!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer text-white py-4">
+    <div class="container text-center">
+      <p class="mb-0">© 2026 SmartLearn — Learn Beyond Limits 🎓</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    // Get user info
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+      // Show sample certificates for demo
+      document.getElementById('noCertificates').classList.add('d-none');
+      document.getElementById('certificatesContainer').classList.remove('d-none');
+      document.getElementById('certName1').textContent = user.name;
+      document.getElementById('certName2').textContent = user.name;
+    }
+
+    function downloadCertificate() {
+      alert('✅ Certificate downloaded successfully!\n\n(In the full version, this will download a PDF certificate!)');
+    }
+  </script>
+
+</body>
+</html>

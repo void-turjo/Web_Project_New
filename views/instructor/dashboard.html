@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instructor Portal - SmartLearn</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold fs-4 text-warning" href="#">
+        <i class="fas fa-chalkboard-teacher me-2"></i>SmartLearn Instructor Portal
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#instructorNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="instructorNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
+          <li class="nav-item"><a class="nav-link active fw-semibold" href="#overview"><i class="fas fa-chart-line me-1"></i>Overview</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="#courses"><i class="fas fa-book me-1"></i>My Courses</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="#quizzes"><i class="fas fa-question-circle me-1"></i>Quizzes & Questions</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="#forumQA"><i class="fas fa-comments me-1"></i>Student Q&A Forum</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="#students"><i class="fas fa-users me-1"></i>Enrolled Students</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <span class="text-white small fw-bold" id="instructorName">Prof. Alan Turing</span>
+          <a href="/courses.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Student View</a>
+          <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="logoutInstructor()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid px-4 py-4">
+
+    <!-- WELCOME BANNER -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-primary text-white p-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+          <h3 class="fw-bold mb-1">👨‍🏫 Welcome, Instructor Portal!</h3>
+          <p class="mb-0 text-white-50">Manage your course content, upload video & PDF materials, build student quizzes, and answer student forum questions.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <span class="badge bg-warning text-dark align-self-center px-3 py-2 rounded-pill fw-bold"><i class="fas fa-lock me-1"></i>Courses Managed by Admin</span>
+          <button class="btn btn-light text-primary fw-bold rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadLessonModal">
+            <i class="fas fa-upload me-2"></i>Upload Video/PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="row g-4 mb-5" id="overview">
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-start border-primary border-4">
+          <i class="fas fa-book fa-2x text-primary mb-2"></i>
+          <h6 class="text-muted mb-1">Courses Taught</h6>
+          <h2 class="fw-bold text-dark mb-0" id="statCourses">2</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-start border-success border-4">
+          <i class="fas fa-user-graduate fa-2x text-success mb-2"></i>
+          <h6 class="text-muted mb-1">Enrolled Students</h6>
+          <h2 class="fw-bold text-dark mb-0" id="statStudents">979</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-start border-warning border-4">
+          <i class="fas fa-video fa-2x text-warning mb-2"></i>
+          <h6 class="text-muted mb-1">Published Lessons</h6>
+          <h2 class="fw-bold text-dark mb-0" id="statVideos">45</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-start border-danger border-4">
+          <i class="fas fa-comments fa-2x text-danger mb-2"></i>
+          <h6 class="text-muted mb-1">Pending Q&A Questions</h6>
+          <h2 class="fw-bold text-dark mb-0" id="statQuestions">3</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 1: MY COURSES -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5" id="courses">
+      <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-book-open text-primary me-2"></i>Assigned Courses</h5>
+        <button class="btn btn-success btn-sm rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#uploadLessonModal">
+          <i class="fas fa-upload me-1"></i>Upload Lesson Materials
+        </button>
+      </div>
+      <div class="card-body p-4">
+        <div class="row g-4" id="instructorCoursesGrid">
+          <div class="text-center py-4"><div class="spinner-border text-primary"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: QUIZZES & QUESTION BANK -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5" id="quizzes">
+      <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-question-circle text-success me-2"></i>Course Quizzes & Question Bank</h5>
+        <div class="d-flex gap-2">
+          <button class="btn btn-success btn-sm rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#addQuizModal">
+            <i class="fas fa-plus me-1"></i>Create Quiz
+          </button>
+          <button class="btn btn-outline-success btn-sm rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+            <i class="fas fa-question me-1"></i>Add Question
+          </button>
+        </div>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Quiz ID</th>
+                <th>Quiz Title</th>
+                <th>Subject Category</th>
+                <th>Total Questions</th>
+                <th>Time Limit</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="instructorQuizzesTable">
+              <tr><td colspan="6" class="text-center py-3">Loading quizzes...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: STUDENT FORUM Q&A -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5" id="forumQA">
+      <div class="card-header bg-white p-4 border-0">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-chalkboard-teacher text-warning me-2"></i>Student Q&A Forum (Provide Teacher Answers)</h5>
+      </div>
+      <div class="card-body p-4">
+        <div id="unansweredQuestionsContainer">
+          <div class="text-center py-3"><div class="spinner-border text-warning"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: ENROLLED STUDENTS -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5" id="students">
+      <div class="card-header bg-white p-4 border-0">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-user-graduate text-info me-2"></i>Enrolled Students & Completion Progress</h5>
+      </div>
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Course Name</th>
+                <th>Progress</th>
+                <th>Enrollment Date</th>
+              </tr>
+            </thead>
+            <tbody id="instructorStudentsTable">
+              <tr><td colspan="6" class="text-center py-3">Loading students...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL 1: ADD COURSE -->
+  <div class="modal fade" id="addCourseModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-plus-circle me-2"></i>Add New Course</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="createCourseForm" onsubmit="submitInstructorCourse(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Course Title</label>
+              <input type="text" class="form-control" id="newCourseName" placeholder="e.g. Advanced Data Structures & Algorithms" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Subject Category</label>
+              <select class="form-select" id="newCourseSubject" required>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Programming" selected>Programming</option>
+                <option value="Database">Database</option>
+                <option value="AI/ML">AI/ML</option>
+                <option value="Science">Science</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Estimated Duration</label>
+              <input type="text" class="form-control" id="newCourseDuration" placeholder="e.g. 12 Hours" value="12 Hours"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Course Description</label>
+              <textarea class="form-control" id="newCourseDesc" rows="3" placeholder="Briefly describe what students will learn..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-check me-2"></i>Create Course
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: UPLOAD LESSON -->
+  <div class="modal fade" id="uploadLessonModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-video me-2"></i>Upload Video & PDF Lesson</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="uploadLessonForm" onsubmit="submitInstructorLesson(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Select Target Course</label>
+              <select class="form-select" id="lessonCourseSelect" required></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Lesson Title</label>
+              <input type="text" class="form-control" id="lessonTitle" placeholder="e.g. Binary Search Trees & Implementation" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">YouTube Video URL</label>
+              <input type="text" class="form-control" id="lessonVideoUrl" placeholder="https://www.youtube.com/watch?v=..." required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">PDF Notes URL / Download File</label>
+              <input type="text" class="form-control" id="lessonPdfUrl" placeholder="/uploads/pdfs/python_basics.html" value="/uploads/pdfs/python_basics.html"/>
+            </div>
+            <button type="submit" class="btn btn-success w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-cloud-upload-alt me-2"></i>Publish Lesson Materials
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CREATE QUIZ -->
+  <div class="modal fade" id="addQuizModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-question-circle me-2"></i>Create New Quiz</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="createQuizForm" onsubmit="submitInstructorQuiz(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Quiz Title</label>
+              <input type="text" class="form-control" id="quizTitle" placeholder="e.g. Data Structures Assessment Quiz" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Subject</label>
+              <select class="form-select" id="quizSubject" required>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Programming" selected>Programming</option>
+                <option value="Physics">Physics</option>
+                <option value="AI/ML">AI/ML</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Time Limit (Minutes)</label>
+              <input type="number" class="form-control" id="quizTimeLimit" value="15" required/>
+            </div>
+            <button type="submit" class="btn btn-success w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-check me-2"></i>Publish Quiz
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ADD QUESTION -->
+  <div class="modal fade" id="addQuestionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold"><i class="fas fa-plus me-2"></i>Add Question to Quiz</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="createQuestionForm" onsubmit="submitInstructorQuestion(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Target Quiz</label>
+              <select class="form-select" id="questionQuizSelect" required></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Question Text</label>
+              <textarea class="form-control" id="qText" rows="3" placeholder="Enter the multiple-choice question..." required></textarea>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option A</label>
+                <input type="text" class="form-control" id="qOptA" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option B</label>
+                <input type="text" class="form-control" id="qOptB" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option C</label>
+                <input type="text" class="form-control" id="qOptC" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Option D</label>
+                <input type="text" class="form-control" id="qOptD" required/>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Correct Option</label>
+              <select class="form-select" id="qCorrect" required>
+                <option value="A">Option A</option>
+                <option value="B">Option B</option>
+                <option value="C">Option C</option>
+                <option value="D">Option D</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Explanation</label>
+              <textarea class="form-control" id="qExplanation" rows="2" placeholder="Explain why this option is correct..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark w-100 fw-bold rounded-pill py-2">
+              <i class="fas fa-save me-2"></i>Save Question
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/instructor.js"></script>
+</body>
+</html>
